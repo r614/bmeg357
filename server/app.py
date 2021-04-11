@@ -22,14 +22,14 @@ power_database : List[PowerStatusPing] = []
 
 
 @app.get("/location")
-def read_root():
+def get_location_data():
     print("Timestamp | Device Id | Location")
     for location in location_database[::-1]: 
         print(' | '.join([location.timestamp, location.device_id, location.location]))
     return location_database
 
 @app.get("/power")
-def read_root():
+def get_power_data():
     print("Timestamp | Device Id | Power Status")
     for power in power_database[::-1]: 
         status = lambda x: "ON" if x else "OFF"
@@ -42,7 +42,7 @@ def save_location(location_ping: LocationPing):
     return "Saved location successfully for device id: " + location_ping.device_id
 
 @app.post("/power")
-def save_location(power_ping: PowerStatusPing):
+def save_power_status(power_ping: PowerStatusPing):
     power_database.append(power_ping)
     return "Saved Power successfully for device id: " + power_ping.device_id
 
